@@ -83,7 +83,7 @@ export default function Products() {
     setSelectedCategory(categoryId);
     setSearchParams(categoryId === "all" ? {} : { category: categoryId });
     setCurrentPage(1);
-    setShowMobileMenu(false); // ✅ close mobile menu after select
+    setShowMobileMenu(false); // close mobile menu after select
   };
 
   const filteredProducts = products.filter((p) =>
