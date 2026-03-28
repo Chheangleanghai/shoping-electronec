@@ -31,11 +31,12 @@ export default function Cart() {
     setIsQRModalOpen(true);
   };
 
+  const apiUrl = import.meta.env.VITE_API_URL;
   //  When user clicks "I Paid"
 const handlePaymentConfirm = async () => {
   try {
     const token = localStorage.getItem("token");
-    const res = await fetch("http://127.0.0.1:8000/api/orders", {
+    const res = await fetch(`${apiUrl}/api/orders`, {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({

@@ -11,6 +11,7 @@ export default function PaidUsersDashboard() {
   const [activeTab, setActiveTab] = useState("padiusers"); // current tab
   const navigate = useNavigate();
 
+  const apiUrl = import.meta.env.VITE_API_URL;
   //  Fetch current user & paid users
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -18,7 +19,7 @@ export default function PaidUsersDashboard() {
 
     const fetchMe = async () => {
       try {
-        const res = await fetch("http://127.0.0.1:8000/api/me", {
+        const res = await fetch(`${apiUrl}/api/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) throw new Error("Unauthorized");
@@ -36,7 +37,7 @@ export default function PaidUsersDashboard() {
   try {
     setLoading(true);
     const token = localStorage.getItem("token");
-    const res = await fetch("http://127.0.0.1:8000/api/orders/paid", {
+    const res = await fetch(`${apiUrl}/api/orders/paid`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     if (!res.ok) throw new Error("Failed to fetch paid users");

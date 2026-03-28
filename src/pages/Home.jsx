@@ -17,7 +17,8 @@ export default function Home() {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://127.0.0.1:8000/api/products", {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const res = await fetch(`${apiUrl}/api/products`, {
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       });
 

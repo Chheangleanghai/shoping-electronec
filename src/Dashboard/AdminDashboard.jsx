@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { Pencil, Trash2, Shield, User } from "lucide-react"
 import { useNavigate } from "react-router-dom"
+const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function AdminDashboard() {
   const [users, setUsers] = useState([])
@@ -24,7 +25,7 @@ export default function AdminDashboard() {
 
     const fetchMe = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/me", {
+        const response = await fetch(`${apiUrl}/api/me`, {
           headers: { Authorization: `Bearer ${token}` },
         })
 
@@ -54,7 +55,7 @@ export default function AdminDashboard() {
     try {
       setLoading(true)
       const token = localStorage.getItem("token")
-      const response = await fetch("http://127.0.0.1:8000/api/users", {
+      const response = await fetch(`${apiUrl}/api/users`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -81,7 +82,7 @@ export default function AdminDashboard() {
   if (!editingUser) return
   try {
     const token = localStorage.getItem("token")
-    const response = await fetch(`http://127.0.0.1:8000/api/users/${editingUser.id}`, {
+    const response = await fetch(`${apiUrl}/api/users/${editingUser.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -111,7 +112,7 @@ export default function AdminDashboard() {
     if (!window.confirm("Are you sure you want to delete this user?")) return
     try {
       const token = localStorage.getItem("token")
-      const response = await fetch(`http://127.0.0.1:8000/api/users/${id}`, {
+      const response = await fetch(`${apiUrl}/api/users/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       })

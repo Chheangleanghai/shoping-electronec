@@ -18,12 +18,18 @@ export default function Login() {
     setError("")
     setLoading(true)
 
+    const apiUrl = import.meta.env.VITE_API_URL;
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      })
+      const res = await fetch(`${apiUrl}/api/login`, {
+        method: "POST", //  must match the route
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: "user@example.com",
+          password: "secret",
+        }),
+      });
 
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || "Login failed")
@@ -48,7 +54,7 @@ export default function Login() {
     try {
       const token = credentialResponse.credential
 
-      const res = await fetch("http://127.0.0.1:8000/api/auth/google", {
+      const res = await fetch(`${apiUrl}/api/auth/google`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token }),

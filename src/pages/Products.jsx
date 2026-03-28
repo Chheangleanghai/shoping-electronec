@@ -21,6 +21,8 @@ export default function Products() {
   // ✅ Mobile category menu
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
+
+
   const categories = [
     { id: "all", name: "All Products" },
     { id: "keyboard", name: "Keyboards" },
@@ -35,11 +37,12 @@ export default function Products() {
     fetchProducts();
   }, [selectedCategory, sortBy]);
 
+  const apiUrl = import.meta.env.VITE_API_URL;
   const fetchProducts = async () => {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const url = new URL("http://127.0.0.1:8000/api/products");
+      const url = new URL(`${apiUrl}/api/products`);
 
       const res = await fetch(url, {
         headers: token ? { Authorization: `Bearer ${token}` } : {},

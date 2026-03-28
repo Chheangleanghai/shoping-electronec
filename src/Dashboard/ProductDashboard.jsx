@@ -470,6 +470,7 @@
   import { Pencil, Trash2, PlusCircle, Eye, Shield } from "lucide-react";
   import { useNavigate } from "react-router-dom";
 
+  const apiUrl = import.meta.env.VITE_API_URL;
   export default function ProductDashboard() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -505,7 +506,7 @@
 
       const fetchMe = async () => {
         try {
-          const res = await fetch("http://127.0.0.1:8000/api/me", {
+          const res = await fetch(`${apiUrl}/api/me`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           if (!res.ok) throw new Error("Unauthorized");
@@ -522,7 +523,7 @@
       const fetchProducts = async () => {
         try {
           setLoading(true);
-          const res = await fetch("http://127.0.0.1:8000/api/products", {
+          const res = await fetch(`${apiUrl}/api/products`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           const data = await res.json();
@@ -611,11 +612,11 @@
           .filter((img) => img instanceof File)
           .forEach((file) => formData.append("images[]", file));
 
-        let url = "http://127.0.0.1:8000/api/products";
+        let url = `${apiUrl}/api/products`;
         let method = "POST";
 
         if (editingProduct) {
-          url = `http://127.0.0.1:8000/api/products/${editingProduct.id}`;
+          url = `${apiUrl}/api/products/${editingProduct.id}`;
           method = "POST";
           formData.append("_method", "POST");
         }
@@ -661,7 +662,7 @@
       if (!confirm("Delete this product?")) return;
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch(`http://127.0.0.1:8000/api/products/${id}`, {
+        const res = await fetch(`${apiUrl}/api/products/${id}`, {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
         });

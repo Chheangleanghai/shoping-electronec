@@ -13,12 +13,13 @@ export default function Register() {
   const navigate = useNavigate()
 
   // --- Normal Register ---
+  const apiUrl = import.meta.env.VITE_API_URL;
   const handleRegister = async (e) => {
     e.preventDefault()
     setError("")
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/register", {
+      const res = await fetch(`${apiUrl}/api/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
@@ -42,7 +43,7 @@ export default function Register() {
     try {
       const token = credentialResponse.credential
 
-      const res = await fetch("http://127.0.0.1:8000/api/auth/google", {
+      const res = await fetch(`${apiUrl}/api/auth/google`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token }),

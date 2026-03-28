@@ -16,11 +16,11 @@ export default function ProductDetail() {
   useEffect(() => {
     fetchProduct();
   }, [id]);
-
+const apiUrl = import.meta.env.VITE_API_URL;
   const fetchProduct = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/products/${id}`);
+      const res = await fetch(`${apiUrl}/api/products/${id}`);
       if (!res.ok) throw new Error("Product not found");
       const data = await res.json();
 
