@@ -4,7 +4,17 @@
 
 const DEFAULT_API_URL = "http://localhost:8000";
 
-export const API_URL = (import.meta.env.VITE_API_URL || DEFAULT_API_URL).replace(/\/$/, "");
+const rawApiUrl = import.meta.env.VITE_API_URL;
+if (!rawApiUrl || rawApiUrl.trim() === "") {
+  if (process.env.NODE_ENV === "production") {
+    console.error(
+      "VITE_API_URL is not set. production frontend will try localhost and fail.\n" +
+        "Set VITE_API_URL to your backend URL (e.g. https://<your-backend>.onrender.com) in your deployment environment."
+    );
+  }
+}
+
+export const API_URL = (rawApiUrl || DEFAULT_API_URL).replace(/\/$/, "");
 export const API_BASE_URL = `${API_URL}/api`;
 
 export function buildApiUrl(path = "") {
