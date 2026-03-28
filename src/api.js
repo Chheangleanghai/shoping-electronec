@@ -1,20 +1,16 @@
 // Centralized API URL configuration for frontend app
-// Set VITE_API_URL in your deployment environment (Render Dashboard -> Environment -> VITE_API_URL)
-// Example: https://your-backend-service.onrender.com
+// Prefer VITE_API_URL from .env.production or Vercel/CI env at build time.
+// Fallback matches the deployed Laravel API on Render when the env var is missing.
 
-const DEFAULT_API_URL = "http://localhost:8000";
+const DEFAULT_DEV_URL = "http://localhost:8000";
+const PRODUCTION_API_FALLBACK = "https://shoping-electronec.onrender.com";
 
-const rawApiUrl = import.meta.env.VITE_API_URL;
-if (!rawApiUrl || rawApiUrl.trim() === "") {
-  if (process.env.NODE_ENV === "production") {
-    console.error(
-      "VITE_API_URL is not set. production frontend will try localhost and fail.\n" +
-        "Set VITE_API_URL to your backend URL (e.g. https://<your-backend>.onrender.com) in your deployment environment."
-    );
-  }
-}
+const rawApiUrl = import.meta.env.VITE_API_URL?.trim();
+const resolvedUrl =
+  rawApiUrl ||
+  (import.meta.env.PROD ? PRODUCTION_API_FALLBACK : DEFAULT_DEV_URL);
 
-export const API_URL = (rawApiUrl || DEFAULT_API_URL).replace(/\/$/, "");
+export const API_URL = resolvedUrl.replace(/\/$/, "");
 export const API_BASE_URL = `${API_URL}/api`;
 
 export function buildApiUrl(path = "") {
