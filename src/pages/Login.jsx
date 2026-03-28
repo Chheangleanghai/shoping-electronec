@@ -1,5 +1,6 @@
 "use client"
 
+import { API_BASE_URL, buildApiUrl, authHeaders } from "../api";
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import AuthLayout from "../components/AuthLayout"
@@ -18,9 +19,9 @@ export default function Login() {
     setError("")
     setLoading(true)
 
-    const apiUrl = import.meta.env.VITE_API_URL;
+    
     try {
-      const res = await fetch(`${apiUrl}/api/login`, {
+      const res = await fetch(`${API_BASE_URL}/login`, {
         method: "POST", //  must match the route
         headers: {
           "Content-Type": "application/json",
@@ -54,7 +55,7 @@ export default function Login() {
     try {
       const token = credentialResponse.credential
 
-      const res = await fetch(`${apiUrl}/api/auth/google`, {
+      const res = await fetch(`${API_BASE_URL}/auth/google`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token }),

@@ -1,5 +1,6 @@
 "use client";
 
+import { API_BASE_URL, buildApiUrl, authHeaders } from "../api";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
@@ -16,11 +17,11 @@ export default function ProductDetail() {
   useEffect(() => {
     fetchProduct();
   }, [id]);
-const apiUrl = import.meta.env.VITE_API_URL;
+
   const fetchProduct = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${apiUrl}/api/products/${id}`);
+      const res = await fetch(`${API_BASE_URL}/products/${id}`);
       if (!res.ok) throw new Error("Product not found");
       const data = await res.json();
 

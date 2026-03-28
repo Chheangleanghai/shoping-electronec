@@ -1,5 +1,6 @@
 "use client";
 
+import { API_BASE_URL, buildApiUrl, authHeaders } from "../api";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
@@ -31,12 +32,12 @@ export default function Cart() {
     setIsQRModalOpen(true);
   };
 
-  const apiUrl = import.meta.env.VITE_API_URL;
+  
   //  When user clicks "I Paid"
 const handlePaymentConfirm = async () => {
   try {
     const token = localStorage.getItem("token");
-    const res = await fetch(`${apiUrl}/api/orders`, {
+    const res = await fetch(`${API_BASE_URL}/orders`, {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({

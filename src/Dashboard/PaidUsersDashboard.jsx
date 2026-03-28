@@ -1,5 +1,6 @@
 "use client";
 
+import { API_BASE_URL, buildApiUrl, authHeaders } from "../api";
 import { useEffect, useState } from "react";
 import { Shield, User, Eye, Box } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +12,7 @@ export default function PaidUsersDashboard() {
   const [activeTab, setActiveTab] = useState("padiusers"); // current tab
   const navigate = useNavigate();
 
-  const apiUrl = import.meta.env.VITE_API_URL;
+  
   //  Fetch current user & paid users
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -19,7 +20,7 @@ export default function PaidUsersDashboard() {
 
     const fetchMe = async () => {
       try {
-        const res = await fetch(`${apiUrl}/api/me`, {
+        const res = await fetch(`${API_BASE_URL}/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) throw new Error("Unauthorized");
@@ -37,7 +38,7 @@ export default function PaidUsersDashboard() {
   try {
     setLoading(true);
     const token = localStorage.getItem("token");
-    const res = await fetch(`${apiUrl}/api/orders/paid`, {
+    const res = await fetch(`${API_BASE_URL}/orders/paid`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     if (!res.ok) throw new Error("Failed to fetch paid users");

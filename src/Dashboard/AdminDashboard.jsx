@@ -1,9 +1,10 @@
 "use client"
 
+import { API_BASE_URL, buildApiUrl, authHeaders } from "../api";
 import { useEffect, useState } from "react"
 import { Pencil, Trash2, Shield, User } from "lucide-react"
 import { useNavigate } from "react-router-dom"
-const apiUrl = import.meta.env.VITE_API_URL;
+
 
 export default function AdminDashboard() {
   const [users, setUsers] = useState([])
@@ -25,7 +26,7 @@ export default function AdminDashboard() {
 
     const fetchMe = async () => {
       try {
-        const response = await fetch(`${apiUrl}/api/me`, {
+        const response = await fetch(`${API_BASE_URL}/me`, {
           headers: { Authorization: `Bearer ${token}` },
         })
 
@@ -55,7 +56,7 @@ export default function AdminDashboard() {
     try {
       setLoading(true)
       const token = localStorage.getItem("token")
-      const response = await fetch(`${apiUrl}/api/users`, {
+      const response = await fetch(`${API_BASE_URL}/users`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -82,7 +83,7 @@ export default function AdminDashboard() {
   if (!editingUser) return
   try {
     const token = localStorage.getItem("token")
-    const response = await fetch(`${apiUrl}/api/users/${editingUser.id}`, {
+    const response = await fetch(`${API_BASE_URL}/users/${editingUser.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -112,7 +113,7 @@ export default function AdminDashboard() {
     if (!window.confirm("Are you sure you want to delete this user?")) return
     try {
       const token = localStorage.getItem("token")
-      const response = await fetch(`${apiUrl}/api/users/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/users/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       })

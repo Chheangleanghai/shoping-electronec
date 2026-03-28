@@ -1,5 +1,6 @@
 "use client";
 
+import { API_BASE_URL, buildApiUrl, authHeaders } from "../api";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
@@ -17,8 +18,8 @@ export default function Home() {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const apiUrl = import.meta.env.VITE_API_URL;
-      const res = await fetch(`${apiUrl}/api/products`, {
+      
+      const res = await fetch(`${API_BASE_URL}/products`, {
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       });
 

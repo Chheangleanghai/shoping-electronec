@@ -1,5 +1,6 @@
 "use client"
 
+import { API_BASE_URL, buildApiUrl, authHeaders } from "../api";
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import AuthLayout from "../components/AuthLayout"
@@ -13,13 +14,13 @@ export default function Register() {
   const navigate = useNavigate()
 
   // --- Normal Register ---
-  const apiUrl = import.meta.env.VITE_API_URL;
+  
   const handleRegister = async (e) => {
     e.preventDefault()
     setError("")
 
     try {
-      const res = await fetch(`${apiUrl}/api/register`, {
+      const res = await fetch(`${API_BASE_URL}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
@@ -43,7 +44,7 @@ export default function Register() {
     try {
       const token = credentialResponse.credential
 
-      const res = await fetch(`${apiUrl}/api/auth/google`, {
+      const res = await fetch(`${API_BASE_URL}/auth/google`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token }),

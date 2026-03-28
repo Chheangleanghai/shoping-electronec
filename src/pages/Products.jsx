@@ -1,5 +1,6 @@
 "use client";
 
+import { API_BASE_URL, buildApiUrl, authHeaders } from "../api";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
@@ -37,12 +38,12 @@ export default function Products() {
     fetchProducts();
   }, [selectedCategory, sortBy]);
 
-  const apiUrl = import.meta.env.VITE_API_URL;
+  
   const fetchProducts = async () => {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const url = new URL(`${apiUrl}/api/products`);
+      const url = new URL(`${API_BASE_URL}/products`);
 
       const res = await fetch(url, {
         headers: token ? { Authorization: `Bearer ${token}` } : {},
