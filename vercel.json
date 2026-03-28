@@ -1,19 +1,8 @@
 {
-  "version": 2,
   "build": {
     "env": {
-      "VITE_API_URL": "https://shoping-electronec.onrender.com"
+      "VITE_API_URL": "https://shoping-electronec.onrender.com",
+      "VITE_GOOGLE_CLIENT_ID": "543583771553-e4q3e3ao12e825fk1ir9ijrr6o2903si.apps.googleusercontent.com"
     }
-  },
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "dist" }
-    }
-  ],
-  "routes": [
-    { "src": "/assets/(.*)", "dest": "/assets/$1" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ]
+  }
 }

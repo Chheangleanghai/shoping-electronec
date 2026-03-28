@@ -1,16 +1,44 @@
 // Centralized API URL configuration for frontend app
-// Prefer VITE_API_URL from .env.production or Vercel/CI env at build time.
-// Fallback matches the deployed Laravel API on Render when the env var is missing.
+// - VITE_API_URL from .env / Vercel is preferred at build time.
+// - When the app runs on a public host (e.g. Vercel) without that env, we must not call
+//   localhost — browsers block HTTPS pages from reaching loopback (CORS / Private Network).
 
 const DEFAULT_DEV_URL = "http://localhost:8000";
 const PRODUCTION_API_FALLBACK = "https://shoping-electronec.onrender.com";
 
-const rawApiUrl = import.meta.env.VITE_API_URL?.trim();
-const resolvedUrl =
-  rawApiUrl ||
-  (import.meta.env.PROD ? PRODUCTION_API_FALLBACK : DEFAULT_DEV_URL);
+function stripTrailingSlash(url) {
+  return url.replace(/\/$/, "");
+}
 
-export const API_URL = resolvedUrl.replace(/\/$/, "");
+function isBrowserLocalhost() {
+  if (typeof window === "undefined") return false;
+  const h = window.location.hostname;
+  return h === "localhost" || h === "127.0.0.1" || h === "[::1]";
+}
+
+function resolveApiUrl() {
+  const fromEnv = import.meta.env.VITE_API_URL?.trim();
+  if (fromEnv) return stripTrailingSlash(fromEnv);
+
+  if (import.meta.env.DEV) {
+    return DEFAULT_DEV_URL;
+  }
+
+  // Production bundle opened on a deployed host → use public API (never loopback).
+  if (typeof window !== "undefined" && !isBrowserLocalhost()) {
+    return PRODUCTION_API_FALLBACK;
+  }
+
+  // Production build without window (unlikely here) — safe default for CI/static prerender.
+  if (import.meta.env.PROD && typeof window === "undefined") {
+    return PRODUCTION_API_FALLBACK;
+  }
+
+  // e.g. `vite preview` on localhost against local Laravel
+  return DEFAULT_DEV_URL;
+}
+
+export const API_URL = resolveApiUrl();
 export const API_BASE_URL = `${API_URL}/api`;
 
 export function buildApiUrl(path = "") {

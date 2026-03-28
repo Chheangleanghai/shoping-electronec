@@ -26,10 +26,7 @@ export default function Login() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          email: "user@example.com",
-          password: "secret",
-        }),
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await res.json()
@@ -77,7 +74,7 @@ export default function Login() {
   }
 
   return (
-    <AuthLayout title="Welcome Bacck" subtitle="Sign in to your account">
+    <AuthLayout title="Welcome Back" subtitle="Sign in to your account">
       {/* FULL SCREEN LOADING OVERLAY */}
       {loading && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex flex-col items-center justify-center">
@@ -154,6 +151,10 @@ export default function Login() {
         <div className="flex justify-center">
           {!loading && (
             <GoogleLogin
+              text="continue_with"
+              shape="rectangular"
+              theme="outline"
+              size="large"
               onSuccess={handleGoogleSuccess}
               onError={() => setError("Google Login Failed")}
             />

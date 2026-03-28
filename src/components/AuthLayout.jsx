@@ -3,10 +3,13 @@ export default function AuthLayout({ title, subtitle, children }) {
     <div className="flex min-h-screen">
       {/* Left side background with overlay */}
       <div className="relative hidden lg:flex flex-1 items-center justify-center bg-black text-white overflow-hidden">
-        <img
-          src="/assets/tech-bg.jpg" //  change this to your image path
-          alt="Tech background"
-          className="absolute inset-0 w-full h-full object-cover opacity-70"
+        <div
+          className="absolute inset-0 opacity-80"
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 60% at 20% 30%, rgba(59, 130, 246, 0.35), transparent 55%), radial-gradient(ellipse 70% 50% at 80% 70%, rgba(168, 85, 247, 0.25), transparent 50%), linear-gradient(160deg, #0a0a0a 0%, #171717 45%, #0a0a0a 100%)",
+          }}
+          aria-hidden
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80"></div>
         <div className="relative z-10 max-w-md text-center px-8">

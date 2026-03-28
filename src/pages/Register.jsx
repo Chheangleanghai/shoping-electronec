@@ -115,6 +115,10 @@ export default function Register() {
 
         <div className="flex justify-center">
           <GoogleLogin
+            text="continue_with"
+            shape="rectangular"
+            theme="outline"
+            size="large"
             onSuccess={handleGoogleSuccess}
             onError={() => setError("Google Sign Up Failed")}
           />
